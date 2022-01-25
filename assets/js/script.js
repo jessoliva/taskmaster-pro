@@ -214,16 +214,16 @@ $(".card .list-group").sortable({
   tolerance: "pointer",
   helper: "clone",
   activate: function(event) {
-    console.log("activate", this);
+    // console.log("activate", this);
   },
   deactivate: function(event) {
-    console.log("deactivate", this);
+    // console.log("deactivate", this);
   },
   over: function(event) {
-    console.log("over", event.target);
+    // console.log("over", event.target);
   },
   out: function(event) {
-    console.log("out", event.target);
+    // console.log("out", event.target);
   },
   // update the corresponding tasks lists in local storage when an <li> is moved
   update: function(event) {
@@ -261,8 +261,26 @@ $(".card .list-group").sortable({
     // update array on tasks object and save
     tasks[arrName] = tempArr;
     saveTasks();
-
-    console.log(arrName);
   }  
 });
 
+// make element w #trash droppable that accepts draggable
+$("#trash").droppable({
+  // accepts items with these classes
+  accept: ".card .list-group-item",
+  // will accept draggable when any amt of it overlaps droppable element
+  tolerance: "touch",
+  // signals that user is trying to delete a task
+  drop: function(event, ui) {
+    console.log(ui);
+    ui.draggable.remove();
+  },
+  // when draggable hovers over droppable
+  over: function(event, ui) {
+    console.log("over");
+  },
+  // triggers when accepted draggable is dragged out of the droppable
+  out: function(event, ui) {
+    console.log("out");
+  }
+});
