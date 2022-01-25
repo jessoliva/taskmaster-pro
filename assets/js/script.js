@@ -1,3 +1,4 @@
+// empty tasks array to push tasks into
 var tasks = {};
 
 var createTask = function(taskText, taskDate, taskList) {
@@ -47,14 +48,7 @@ var saveTasks = function() {
 // uses event delegation to offset the click event to a parent that will always exist, then checking which child element triggered the event
 // .list-group is the parent
 // p is the child
-// $(".list-group").on("click", "p", function() {
-//   // console.log(event.target); --> need to add function(event)
-//   // console.log(this);
-//   var text = $(this).text();
-//   console.log(text);
-// });
-
-// get task value
+// get task value when selecting task to edit
 $(".list-group").on("click", "p", function() {
   // get the value of the <p> this you clicked on
   var text = $(this)
@@ -213,4 +207,62 @@ $("#remove-tasks").on("click", function() {
 // load tasks for the first time
 loadTasks();
 
+// elements with class - .card and .list-group
+$(".card .list-group").sortable({
+  connectWith: $(".card .list-group"),
+  scroll: false,
+  tolerance: "pointer",
+  helper: "clone",
+  activate: function(event) {
+    console.log("activate", this);
+  },
+  deactivate: function(event) {
+    console.log("deactivate", this);
+  },
+  over: function(event) {
+    console.log("over", event.target);
+  },
+  out: function(event) {
+    console.log("out", event.target);
+  },
+  // update the corresponding tasks lists in local storage when an <li> is moved
+  update: function(event) {
+
+    // array to store the task data in
+    var tempArr = [];
+
+    // loop over current set of children in sortable parent list
+    $(this).children().each(function() { // this 'this' is the parent <il>
+
+      // in the <li> child find <p> & get the text value --> assign it to var text
+      var text = $(this) // this 'this' is the child <li>
+      .find("p")
+      .text()
+      .trim();
+      
+      // in the <li> child find <span> & get the text value --> assign it to var date
+      var date = $(this)
+      .find("span")
+      .text()
+      .trim();
+
+      // add task data to the temp array as an object
+      tempArr.push({
+        text: text,
+        date: date
+      });
+    });
+
+    // trim down list's ID to match object property // example list-toDo --> toDo
+    var arrName = $(this)
+    .attr("id")
+    .replace("list-", "");
+
+    // update array on tasks object and save
+    tasks[arrName] = tempArr;
+    saveTasks();
+
+    console.log(arrName);
+  }  
+});
 
