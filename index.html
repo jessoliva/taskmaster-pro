@@ -4,10 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <!-- bootstrap link -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
     />
+    <!-- css stylesheet link -->
     <link rel="stylesheet" href="./assets/css/style.css" />
     <title>Taskmaster Pro</title>
   </head>
@@ -36,11 +39,63 @@
           quis iste?
         </p>
       </header>
-      
+
       <main class="col-12 col-lg-9">
-        <div class="m-5">
-          <h2>To Do</h2>
-          <ul id="list-toDo" class="list-group"></ul>
+        <!-- parent element has class = row -->
+        <div class="m-5 row justify-content-around">
+          <!-- todo start -->
+          <div class="col-12 col-md-6 col-xl-3 mb-3">
+            <div class="card">
+              <h4 class="card-header">To Do</h4>
+              <ul id="list-toDo" class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <span class="badge badge-primary badge-pill">05/28/2020</span>
+                  <p class="m-1">Sample task to do</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- todo end -->
+          <!-- in progress start -->
+          <div class="col-12 col-md-6 col-xl-3 mb-3">
+            <div class="card">
+              <h4 class="card-header">In Progress</h4>
+              <ul id="list-inProgress" class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <span class="badge badge-primary badge-pill">05/28/2020</span>
+                  <p class="m-1">Sample task in progress</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- in progress end -->
+          <!-- in review start -->
+          <div class="col-12 col-md-6 col-xl-3 mb-3">
+            <div class="card">
+              <h4 class="card-header">In Review</h4>
+              <ul id="list-inReview" class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <span class="badge badge-primary badge-pill">05/28/2020</span>
+                  <p class="m-1">Sample task in review</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- in review end -->
+          <!-- done start -->
+          <div class="col-12 col-md-6 col-xl-3 mb-3">
+            <div class="card">
+              <h4 class="card-header">Done</h4>
+              <ul id="list-done" class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <span class="badge badge-primary badge-pill">05/28/2020</span>
+                  <p class="m-1">Sample task that's done</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- done end -->
+        </div>
         </div>
       </main>
     </div>
@@ -71,16 +126,11 @@
             <form>
               <div class="form-group">
                 <label for="modalTaskDescription">Task description</label>
-                <textarea id="modalTaskDescription" rows="3"></textarea>
+                <textarea id="modalTaskDescription" rows="3" class="form-control"></textarea>
               </div>
               <div class="form-group">
                 <label for="modalDueDate">Due date</label>
-                <input
-                  type="text"
-                  id="modalDueDate"
-                  placeholder="mm/dd/yyyy"
-                  autocomplete="off"
-                />
+                <input type="text" class="form-control" id="modalDueDate" placeholder="mm/dd/yyyy" autocomplete="off" />
               </div>
             </form>
           </div>
@@ -98,7 +148,9 @@
       </div>
     </div>
 
+    <!-- jquery link -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- popper link -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="./assets/js/script.js"></script>
