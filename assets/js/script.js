@@ -1,31 +1,6 @@
 // empty tasks array to push tasks into
 var tasks = {};
 
-var auditTask = function(taskEl) {
-  // get current date text
-  var date = $(taskEl).find("span").text().trim();
-
-  // convert the current date text to moment object at hour 5:00pm
-  var time = moment(date, "L").set("hour", 17);
-
-  // remove any of these classes if they were already in place
-  $(taskEl).removeClass("list-group-item-warning list-group-item-danger");
-  // This way, if we update the due date from yesterday to a week from now, that red background will be removed, as it will no longer be overdue
-
-  // apply new class if task is near/over due date
-  if (moment().isAfter(time)) {
-    $(taskEl).addClass("list-group-item-danger");
-  } 
-  else if (Math.abs(moment().diff(time, "days")) <= 2) {
-    $(taskEl).addClass("list-group-item-warning");
-  }
-  // absolute value - comparing current date moment() & time (actual date of task)
-  // if the difference is 2 days or less -- then it's due soon so yellow
-
-  // this should print out an object for the value of the date variable, but at 5:00pm of that date
-  console.log(time);
-};
-
 // create task
 var createTask = function(taskText, taskDate, taskList) {
   // create elements that make up a task item
@@ -51,7 +26,6 @@ var createTask = function(taskText, taskDate, taskList) {
   $("#list-" + taskList).append(taskLi);
 };
 
-
 // load tasks from local storage
 var loadTasks = function() {
   tasks = JSON.parse(localStorage.getItem("tasks"));
@@ -76,6 +50,34 @@ var loadTasks = function() {
 // save tasks to local storage
 var saveTasks = function() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
+};
+
+var auditTask = function(taskEl) {
+  // get current date text
+  var date = $(taskEl)
+    .find("span")
+    .text()
+    .trim();
+
+  // convert the current date text to moment object at hour 5:00pm
+  var time = moment(date, "L").set("hour", 17);
+
+  // remove any of these classes if they were already in place
+  $(taskEl).removeClass("list-group-item-warning list-group-item-danger");
+  // This way, if we update the due date from yesterday to a week from now, that red background will be removed, as it will no longer be overdue
+
+  // apply new class if task is near/over due date
+  if (moment().isAfter(time)) {
+    $(taskEl).addClass("list-group-item-danger");
+  } 
+  else if (Math.abs(moment().diff(time, "days")) <= 2) {
+    $(taskEl).addClass("list-group-item-warning");
+  }
+  // absolute value - comparing current date moment() & time (actual date of task)
+  // if the difference is 2 days or less -- then it's due soon so yellow
+
+  // this should print out an object for the value of the date variable, but at 5:00pm of that date
+  console.log(time);
 };
 
 // enable draggable/sortable feature on list-group elements
