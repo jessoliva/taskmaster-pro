@@ -170,21 +170,25 @@ $(".list-group").on("click", "p", function() {
 // get task value when selecting task to edit
 
 // editable field was un-focused and value of task has changed
+// blur() method removes keyboard focus from the current element
 $(".list-group").on("blur", "textarea", function() {
   // get the textarea's current value/text
   var text = $(this)
     .val()
     .trim();
+
   // get the parent ul's id attribute
   var status = $(this)
     .closest(".list-group")
     .attr("id")
     // replace list- with "" --> means to just delete list-
     .replace("list-", "");
+
   // get the task's position in the list of other li elements
   var index = $(this)
     .closest(".list-group-item")
     .index();
+  
   // set the specific task's text with the new text
   // tasks is an object
   // tasks[status] returns an array from loadTasks(); function
@@ -194,56 +198,72 @@ $(".list-group").on("blur", "textarea", function() {
   tasks[status][index].text = text;
   // to update this tasks object in the var tasks =
   saveTasks();
+
   // now save <textarea> back to <p>
   // recreate p element
   var taskP = $("<p>")
     .addClass("m-1")
     .text(text);
+
   // replace textarea with p element
   $(this).replaceWith(taskP);
 });
 
 // due date was clicked and can edit date value
-$(".list-group").on("click", "span", function () {
-  // get the value of <span> you click on
-  var date = $(this)
-    .text()
-    .trim();
-  
-  // create HTML element for due date
+$(".list-group").on("click", "span", function() {
+  // get current text of <span> (this)
+  var date = $(this).text().trim();
+
+  // create new input element <input type="text" class="form-control">Date</input>
   var dateInput = $("<input>")
-    .attr("type", "text")
-    .addClass("form-control")
-    // set the value to the current date
-    .val(date);
-  // swap out elements
+  .attr("type", "text")
+  .addClass("form-control")
+  .val(date);
+
   $(this).replaceWith(dateInput);
-  // automatically focus on new element
+
+  // enable jquery ui datepicker
+  dateInput.datepicker({
+    minDate: 1,
+    onClose: function() {
+      // when calendar is closed, force a "change" event on the `dateInput` = this
+      $(this).trigger("change");
+    }
+  });
+  // By adding the onClose method, we can instruct the dateInput element to trigger its own change event and execute the callback function tied to "change"
+
+  // automatically bring up the calendar
   dateInput.trigger("focus");
 });
 
-// value of due date was changed
-$(".list-group").on("blur", "input[type='text']", function() {
+// value of due date was changed // edit: blur to change to fix error
+// change() method, saying attach this function to run when a change event occurs
+$(".list-group").on("change", "input[type='text']", function() {
   // get current text
   var date = $(this)
     .val()
     .trim();
-  // get the parent ul's id attribute
+  
+  // get the parent ul's id attribute // example list-toDo = toDo
   var status = $(this)
     .closest(".list-group")
     .attr("id")
     .replace("list-", "");
-  // get the task's position in the list of other li elements
+
+  // get the task's position (index) in the list of other li elements
   var index = $(this)
     .closest(".list-group-item")
     .index();
-  // update task in array and re-save to localstorage
+
+  // update task in array and re-save to local storage // examples tasks[toDo][1].date
   tasks[status][index].date = date;
   saveTasks();
+
   // recreate span element with bootstrap classes
   var taskSpan = $("<span>")
     .addClass("badge badge-primary badge-pill")
     .text(date);
+
   // replace input with span element
   $(this).replaceWith(taskSpan);
 });
@@ -254,8 +274,14 @@ $("#remove-tasks").on("click", function() {
     tasks[key].length = 0;
     $("#list-" + key).empty();
   }
+
   saveTasks();
 });
 
 // load tasks for the first time
 loadTasks();
+
+// add date picker 
+$('#modalDueDate').datepicker({
+  minDate: 1 // set the minimum date to be one day from the current date
+});
