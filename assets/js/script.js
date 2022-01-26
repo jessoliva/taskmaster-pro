@@ -1,23 +1,58 @@
 // empty tasks array to push tasks into
 var tasks = {};
 
+var auditTask = function(taskEl) {
+  // get current date text
+  var date = $(taskEl).find("span").text().trim();
+
+  // convert the current date text to moment object at hour 5:00pm
+  var time = moment(date, "L").set("hour", 17);
+
+  // remove any of these classes if they were already in place
+  $(taskEl).removeClass("list-group-item-warning list-group-item-danger");
+  // This way, if we update the due date from yesterday to a week from now, that red background will be removed, as it will no longer be overdue
+
+  // apply new class if task is near/over due date
+  if (moment().isAfter(time)) {
+    $(taskEl).addClass("list-group-item-danger");
+  } 
+  else if (Math.abs(moment().diff(time, "days")) <= 2) {
+    $(taskEl).addClass("list-group-item-warning");
+  }
+  // absolute value - comparing current date moment() & time (actual date of task)
+  // if the difference is 2 days or less -- then it's due soon so yellow
+
+  // this should print out an object for the value of the date variable, but at 5:00pm of that date
+  console.log(time);
+};
+
 // create task
 var createTask = function(taskText, taskDate, taskList) {
   // create elements that make up a task item
   var taskLi = $("<li>").addClass("list-group-item");
+
   var taskSpan = $("<span>")
     .addClass("badge badge-primary badge-pill")
     .text(taskDate);
+
   var taskP = $("<p>")
     .addClass("m-1")
     .text(taskText);
+
   // append span and p element to parent li
   taskLi.append(taskSpan, taskP);
+
+  // check due date before adding the task item to the page to make changes if req
+  auditTask(taskLi);
+
+  //If we have tasks saved, then they should automatically run through the auditTask() function and we can check the console to see if it works. If not, create a new task and check the console after submitting it
 
   // append to ul list on the page
   $("#list-" + taskList).append(taskLi);
 };
 
+
+// load tasks from local storage
 var loadTasks = function() {
   tasks = JSON.parse(localStorage.getItem("tasks"));
   // if nothing in localStorage, create a new object to track all task status arrays
@@ -236,7 +271,8 @@ $(".list-group").on("click", "span", function() {
   dateInput.trigger("focus");
 });
 
-// value of due date was changed // edit: blur to change to fix error
+// update value of due date that was changed
+// edit: blur to change to fix error
 // change() method, saying attach this function to run when a change event occurs
 $(".list-group").on("change", "input[type='text']", function() {
   // get current text
@@ -266,6 +302,9 @@ $(".list-group").on("change", "input[type='text']", function() {
 
   // replace input with span element
   $(this).replaceWith(taskSpan);
+
+  // Pass task's <li> element of <span> element into auditTask() to check new due date
+  auditTask($(taskSpan).closest(".list-group-item"));
 });
 
 // remove all tasks
@@ -285,3 +324,4 @@ loadTasks();
 $('#modalDueDate').datepicker({
   minDate: 1 // set the minimum date to be one day from the current date
 });
+
