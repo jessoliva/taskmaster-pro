@@ -52,6 +52,8 @@ var saveTasks = function() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
+// checks the date of each task and compares it to the conditions
+// with setInterval, the list items are checked every 30 min
 var auditTask = function(taskEl) {
   // get current date text
   var date = $(taskEl)
@@ -76,8 +78,10 @@ var auditTask = function(taskEl) {
   // absolute value - comparing current date moment() & time (actual date of task)
   // if the difference is 2 days or less -- then it's due soon so yellow
 
-  // this should print out an object for the value of the date variable, but at 5:00pm of that date
-  console.log(time);
+  // // this should print out an object for the value of the date variable, but at 5:00pm of that date
+  // console.log(time);
+
+  console.log(taskEl);
 };
 
 // enable draggable/sortable feature on list-group elements
@@ -134,6 +138,7 @@ $(".card .list-group").sortable({
     saveTasks();
   }  
 });
+
 
 // trash icon can be dropped onto 
 $("#trash").droppable({
@@ -327,3 +332,14 @@ $('#modalDueDate').datepicker({
   minDate: 1 // set the minimum date to be one day from the current date
 });
 
+// with set interval, the call back function is run after a certain amt of time --> executed always
+// setTimeout executes function only once
+setInterval(function () {
+  $(".card .list-group-item").each(function(index, el) { //.each loops thru the function
+    auditTask(el);
+  });
+}, (1000*60)*30); // every 30 min run the auditTask for every el
+// the jQuery selector passes each element it finds using the selector into the callback function, and that element is expressed in the el argument of the function. 
+// auditTask() then passes the element to its routines using the el argument
+// In this interval, we loop over every task on the page with a class of list-group-item and execute the auditTask() function to check the due date of each one
+// (1000*60)*30) --> multiply 1,000 milliseconds by 60 to convert it to 1 minute. Then we multiply that minute by 30 to get a 30-minute timer
