@@ -86,10 +86,11 @@
         </div>
 
         <!-- trash zone start -->
-        <div id="trash" class="mt-auto">
+        <div id="trash" class="mt-auto overflow-hidden"> 
+        <!-- overflow-hidden = to prevent user from being able to scrolls too down -->
           <!-- mt-auto margin top auto, send the bottom container down -->
-          <div class="w-100 bg-danger p-3 text-center text-light display-4">
-            <span class="oi oi-trash"></span> Drop Here to Remove.
+          <div class="bottom-trash w-100 p-3 text-center text-light">
+            <span class="oi oi-trash mx-auto mb-4"></span> Drop Here to Remove.
           </div>
         </div>
         <!-- trash zone end -->

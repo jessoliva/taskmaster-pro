@@ -91,16 +91,30 @@ $(".card .list-group").sortable({
   tolerance: "pointer",
   helper: "clone",
   activate: function(event) {
-    // console.log(ui); same as ('activate', this);
+    // console.log('activate', this); //same as ('activate', this);
+
+    // makes lists gray when you move a task
+    $(this).addClass('dropover');
+    // makes trash pop up when you drag a task
+    $(".bottom-trash").addClass('bottom-trash-drag');
   },
   deactivate: function(event) {
-    // console.log(ui);
+    // console.log('deactivate', this);
+
+    // removes gray when task is done being moved
+    $(this).removeClass('dropover');
+    // removes trash pop once you stop dragging
+    $(".bottom-trash").removeClass('bottom-trash-drag');
   },
   over: function(event) {
     // console.log(event);
+
+    // can use $(this) here?
+    $(event.target).addClass('dropover-active');
   },
   out: function(event) {
     // console.log(event);
+    $(event.target).removeClass('dropover-active');
   },
   // update the corresponding tasks lists in local storage when an <li> is moved
   update: function(event) {
@@ -148,16 +162,19 @@ $("#trash").droppable({
   tolerance: "touch",
   // signals that user is trying to delete a task
   drop: function(event, ui) {
-    console.log(ui);
+    // console.log(ui);
     ui.draggable.remove();
+    $(".bottom-trash").removeClass('bottom-trash-active');
   },
   // when draggable hovers over droppable
   over: function(event, ui) {
-    console.log("over");
+    // console.log("over");
+    $(".bottom-trash").addClass('bottom-trash-active');
   },
   // triggers when accepted draggable is dragged out of the droppable
   out: function(event, ui) {
-    console.log("out");
+    // console.log("out");
+    $(".bottom-trash").removeClass('bottom-trash-active');
   }
 });
 
