@@ -1,3 +1,90 @@
 ul.list-group {
   min-height: 130px;
 }
+
+body {
+  font-family: "Open Sans", sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Staatliches", sans-serif;
+}
+
+.dropover {
+  background-color: rgba(0,0,0,0.3);
+}
+
+.dropover-active {
+  background-color: rgba(0,0,0,0.9);
+}
+/* the last # in here represents the opacity - 1 = fully visible, 0 = invisible */
+
+.bottom-trash {
+  opacity: 0;
+  color: #f1f1f1;
+  font-size: 2.3rem;
+  font-family: "Staatliches", sans-serif;
+  transform: translateY(150px);
+  /* translates the Y position of the <div> down by 150px from its origin */
+  transition: all .5s ease-in-out;
+  background-color: rgba(234,0,39,0.7);
+}
+/* will give the dropzone all of its base styles and move it down 150px using the translateY() CSS function */
+
+.bottom-trash-drag {
+  transform: translateY(0);
+  /* moves container vertically */
+  opacity: 1;
+}
+/* will be added to the trash dropzone element when a task is dragged, which will move the element back into view */
+
+.bottom-trash-active {
+  background-color: rgba(234,0,39,1);
+}
+/* will be applied when a task item is dragged over the trash dropzone */
+
+/* .btn-add, .btn-save {
+  background-color: #FA8BFF; /* if gradient is not supported 
+  background-image: linear-gradient(45deg, #FA8BFF 0%, #2BD2FF 52%, #2BFF88 90%);
+  transition: all .5s ease-out;
+  background-size: 1px 100px;
+  background-position: 0 -10px;
+}
+
+.btn-delete, .btn-close {
+  background-color: #EA0028;
+  background-image: linear-gradient(180deg, #FF9A8B 0%, #EA0028 100%);
+  transition: all .5s ease-out;
+  background-size: 1px 100px;
+  background-position: 0 -10px;
+}
+
+.btn-add, .btn-save, .btn-delete, .btn-close:hover {
+  background-position: 1px -50px;
+} */
+
+.btn-add,
+.btn-save {
+  background-color: #FA8BFF; /* if gradient is not supported show this color */
+  background-image: linear-gradient(45deg, #FA8BFF 0%, #2BD2FF 52%, #2BFF88 90%);
+  transition: all .5s ease-out;  
+  background-size: 1px 100px; 
+  background-position: 0px -10px;
+}
+
+.btn-close, 
+.btn-delete {
+  transition: all .5s ease-out;  
+  background-size:1px 100px; 
+  background-position: 1px -10px;
+  background-color: #ea0028;
+  background-image: linear-gradient(180deg, #FF9A8B 0%, #ea0028 100%);
+}
+
+.btn-save:hover, 
+.btn-add:hover,
+.btn-close:hover, 
+.btn-delete:hover {
+  background-position: 1px -50px;
+}
+
